@@ -1,26 +1,21 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 
 // View Engine
 app.set('view engine','ejs');
 app.set('views', './src/views');
 
-//Routes
-app.get('/', (req,res) => {
-    res.render('Estoy en la página de inicio.')
-})
-// Armar las rutas para "acerca-de" y "contacto"
+// Routes
+const staticRoutes = require('./routes/statics');
+app.use('/', staticRoutes);
 
-app.get('/acerca-de', (req,res) => {
-    res.render('Estoy en la página de acerca de acerca de.')
-})
+// Recursos estáticos
+app.use(express.static('public'));
 
-app.get('/contacto', (req,res) => {
-    res.render('Estoy en la página de contacto.')
-})
-
-app.get('*',(req, res) => {
-    res.render('Esta pagina no existe amewo.')
-})
+// // Ruta de error de toda la aplicación.
+// app.get('*',(req, res) => {
+//     res.render('Esta pagina no existe amewo.')
+// })
 
 app.listen(3000, () => console.log('servidor corriendo en el puerto 3000'));
